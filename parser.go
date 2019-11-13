@@ -552,6 +552,37 @@ func (p *parser) parsePseudoclassSelector() (out Sel, pseudoElement string, err 
 		out = emptyElementPseudoClassSelector{}
 	case "root":
 		out = rootPseudoClassSelector{}
+	case "link":
+		out = linkPseudoClassSelector{}
+	case "lang":
+		if !p.consumeParenthesis() {
+			return out, "", errExpectedParenthesis
+		}
+		if p.i == len(p.s) {
+			return out, "", errUnmatchedParenthesis
+		}
+		val, err := p.parseIdentifier()
+		if err != nil {
+			return out, "", err
+		}
+		val = strings.ToLower(val)
+		p.skipWhitespace()
+		if p.i >= len(p.s) {
+			return out, "", errors.New("unexpected EOF in pseudo selector")
+		}
+		if !p.consumeClosingParenthesis() {
+			return out, "", errExpectedClosingParenthesis
+		}
+		out = langPseudoClassSelector{lang: val}
+	case "enabled":
+		out = enabledPseudoClassSelector{}
+	case "disabled":
+		out = disabledPseudoClassSelector{}
+	case "checked":
+		out = checkedPseudoClassSelector{}
+	case "visited", "hover", "active", "focus", "target":
+		// Not applicable in a static context: never match.
+		out = neverMatchSelector{value: ":" + name}
 	case "after", "backdrop", "before", "cue", "first-letter", "first-line", "grammar-error", "marker", "placeholder", "selection", "spelling-error":
 		return nil, name, nil
 	default:
@@ -714,6 +745,9 @@ func (p *parser) parseSimpleSelectorSequence() (Sel, error) {
 	case '*':
 		// It's the universal selector. Just skip over it, since it doesn't affect the meaning.
 		p.i++
+		if p.i+2 < len(p.s) && p.s[p.i:p.i+2] == "|*" { // other version of universal selector
+			p.i += 2
+		}
 	case '#', '.', '[', ':':
 		// There's no type selector. Wait to process the other till the main loop.
 	default:
