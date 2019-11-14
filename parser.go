@@ -33,10 +33,11 @@ func (p *parser) parseEscape() (result string, err error) {
 	case hexDigit(c):
 		// unicode escape (hex)
 		var i int
-		for i = start; i < p.i+6 && i < len(p.s) && hexDigit(p.s[i]); i++ {
+		for i = start; i < p.i+7 && i < len(p.s) && hexDigit(p.s[i]); i++ {
 			// empty
 		}
-		v, _ := strconv.ParseUint(p.s[start:i], 16, 21)
+		v, _ := strconv.ParseUint(p.s[start:i], 16, 64)
+		fmt.Println(p.s[start:i], v, string(rune(v)))
 		if len(p.s) > i {
 			switch p.s[i] {
 			case '\r':
