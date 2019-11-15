@@ -2,13 +2,28 @@ package cascadia
 
 import (
 	"bytes"
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"log"
+	"os"
 	"strings"
 	"testing"
 
 	"golang.org/x/net/html"
 )
+
+var validSelectors []validSelector
+
+func init() {
+	c, err := ioutil.ReadFile("test_ressources/valid_selectors.json")
+	if err != nil {
+		log.Fatal(err)
+	}
+	if err = json.Unmarshal(c, &validSelectors); err != nil {
+		log.Fatal(err)
+	}
+}
 
 type selectorTest struct {
 	HTML, selector string
@@ -622,6 +637,27 @@ var selectorTests = []selectorTest{
 			"<form></form>",
 		},
 	},
+	{
+		`<html><head></head><body><fieldset disabled><legend id="1"><input id="i1"/></legend><legend id="2"><input id="i2"/></legend></fieldset></body></html>`,
+		"input:disabled",
+		[]string{
+			`<input id="i2"/>`,
+		},
+	},
+	{
+		`<html><head></head><body><fieldset disabled></fieldset></body></html>`,
+		":disabled",
+		[]string{
+			`<fieldset disabled=""></fieldset>`,
+		},
+	},
+	{
+		`<html><head></head><body><fieldset></fieldset></body></html>`,
+		":enabled",
+		[]string{
+			`<fieldset></fieldset>`,
+		},
+	},
 }
 
 func setup(selector, testHTML string) (Selector, *html.Node, error) {
@@ -788,4 +824,159 @@ func TestPseudoElement(t *testing.T) {
 			t.Errorf("wrong pseudo-element : expected %s got %s", test.pseudo, s.PseudoElement())
 		}
 	}
+}
+
+type invalidSelector struct {
+	Name     string `json:"name,omitempty"`
+	Selector string `json:"selector,omitempty"`
+}
+
+type validSelector struct {
+	invalidSelector
+	Expect  []string `json:"expect,omitempty"`
+	Exclude []string `json:"exclude,omitempty"`
+	Level   int      `json:"level,omitempty"`
+	Xfail   bool     `json:"xfail,omitempty"`
+}
+
+func TestInvalidSelectors(t *testing.T) {
+	// Data borrowed from https://github.com/Kozea/cssselect2
+
+	c, err := ioutil.ReadFile("test_ressources/invalid_selectors.json")
+	if err != nil {
+		t.Fatal(err)
+	}
+	var tests []invalidSelector
+	if err = json.Unmarshal(c, &tests); err != nil {
+		t.Fatal(err)
+	}
+	for _, test := range tests {
+		_, err := ParseGroupWithPseudoElements(test.Selector)
+		if err == nil {
+			t.Fatalf("%s -> expected error on invalid selector : %s", test.Name, test.Selector)
+		}
+	}
+}
+
+func parseReference(file string) *html.Node {
+	f, err := os.Open("test_ressources/" + file)
+	if err != nil {
+		log.Fatal(err)
+	}
+	node, err := html.Parse(f)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return node
+}
+
+func getId(n *html.Node) string {
+	for _, attr := range n.Attr {
+		if attr.Key == "id" {
+			return attr.Val
+		}
+	}
+	return ""
+}
+
+func isEqual(l1, l2 []string) bool {
+	if len(l1) != len(l2) {
+		return false
+	}
+	for i := range l1 {
+		if l1[i] != l2[i] {
+			return false
+		}
+	}
+	return true
+}
+
+func TestValidSelectors(t *testing.T) {
+	// Data borrowed from https://github.com/Kozea/cssselect2
+	doc := parseReference("content.xhtml")
+	for _, test := range validSelectors {
+		if test.Xfail {
+			t.Logf("skiped test %s", test.Name)
+			continue
+		}
+		sels, err := ParseGroupWithPseudoElements(test.Selector)
+		if err != nil {
+			t.Errorf("%s -> unable to parse valid selector : %s : %s", test.Name, test.Selector, err)
+		}
+		var filteredSels SelectorGroup
+		for _, sel := range sels {
+			// pseudo element doesn't count as a match in this test since they are not really part of the document
+			if sel.PseudoElement() == "" {
+				filteredSels = append(filteredSels, sel)
+			}
+		}
+		var totalIds []string
+		for _, node := range Selector(filteredSels.Match).MatchAll(doc) {
+			totalIds = append(totalIds, getId(node))
+		}
+		if !isEqual(totalIds, test.Expect) {
+			t.Errorf("%s : expected %v got %v", test.Name, test.Expect, totalIds)
+		}
+
+	}
+}
+
+func TestShakespeare(t *testing.T) {
+	doc := parseReference("shakespeare.html")
+	body := doc.FirstChild.NextSibling.LastChild
+	assertCount := func(selector string, expected int) {
+		sel, err := ParseGroup(selector)
+		if err != nil {
+			t.Errorf("invalid selector %s", selector)
+		}
+		if l := len(Selector(sel.Match).MatchAll(body)); l != expected {
+			t.Errorf("%s -> expected %d, got %d", selector, expected, l)
+		}
+	}
+
+	// Data borrowed from https://github.com/Kozea/cssselect2
+	assertCount("*", 246)
+	assertCount("div:only-child", 22) // ?
+	assertCount("div:nth-child(even)", 106)
+	assertCount("div:nth-child(2n)", 106)
+	assertCount("div:nth-child(odd)", 137)
+	assertCount("div:nth-child(2n+1)", 137)
+	assertCount("div:nth-child(n)", 243)
+	assertCount("div:last-child", 53)
+	assertCount("div:first-child", 51)
+	assertCount("div > div", 242)
+	assertCount("div + div", 190)
+	assertCount("div ~ div", 190)
+	assertCount("body", 1)
+	assertCount("body div", 243)
+	assertCount("div", 243)
+	assertCount("div div", 242)
+	assertCount("div div div", 241)
+	assertCount("div, div, div", 243)
+	assertCount("div, a, span", 243)
+	assertCount(".dialog", 51)
+	assertCount("div.dialog", 51)
+	assertCount("div .dialog", 51)
+	assertCount("div.character, div.dialog", 99)
+	assertCount("div.direction.dialog", 0)
+	assertCount("div.dialog.direction", 0)
+	assertCount("div.dialog.scene", 1)
+	assertCount("div.scene.scene", 1)
+	assertCount("div.scene .scene", 0)
+	assertCount("div.direction .dialog ", 0)
+	assertCount("div .dialog .direction", 4)
+	assertCount("div.dialog .dialog .direction", 4)
+	assertCount("#speech5", 1)
+	assertCount("div#speech5", 1)
+	assertCount("div #speech5", 1)
+	assertCount("div.scene div.dialog", 49)
+	assertCount("div#scene1 div.dialog div", 142)
+	assertCount("#scene1 #speech1", 1)
+	assertCount("div[class]", 103)
+	assertCount("div[class=dialog]", 50)
+	assertCount("div[class^=dia]", 51)
+	assertCount("div[class$=log]", 50)
+	assertCount("div[class*=sce]", 1)
+	assertCount("div[class|=dialog]", 50)
+	assertCount("div[class~=dialog]", 51)
 }

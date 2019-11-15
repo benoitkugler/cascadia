@@ -7,16 +7,31 @@ import (
 
 // implements the reverse operation Sel -> string
 
+var specialCharReplacer *strings.Replacer
+
+func init() {
+	var pairs []string
+	for _, s := range ",!\"#$%&'()*+ -./:;<=>?@[\\]^`{|}~" {
+		pairs = append(pairs, string(s), "\\"+string(s))
+	}
+	specialCharReplacer = strings.NewReplacer(pairs...)
+}
+
+// espace special CSS char
+func escape(s string) string {
+	return specialCharReplacer.Replace(s)
+}
+
 func (c tagSelector) String() string {
 	return c.tag
 }
 
 func (c idSelector) String() string {
-	return "#" + c.id
+	return "#" + escape(c.id)
 }
 
 func (c classSelector) String() string {
-	return "." + c.class
+	return "." + escape(c.class)
 }
 
 func (c attrSelector) String() string {
@@ -32,6 +47,7 @@ func (c attrSelector) String() string {
 func (c relativePseudoClassSelector) String() string {
 	return fmt.Sprintf(":%s(%s)", c.name, c.match.String())
 }
+
 func (c containsPseudoClassSelector) String() string {
 	s := "contains"
 	if c.own {
@@ -39,6 +55,7 @@ func (c containsPseudoClassSelector) String() string {
 	}
 	return fmt.Sprintf(`:%s("%s")`, s, c.value)
 }
+
 func (c regexpPseudoClassSelector) String() string {
 	s := "matches"
 	if c.own {
@@ -46,6 +63,7 @@ func (c regexpPseudoClassSelector) String() string {
 	}
 	return fmt.Sprintf(":%s(%s)", s, c.regexp.String())
 }
+
 func (c nthPseudoClassSelector) String() string {
 	if c.a == 0 && c.b == 1 { // special cases
 		s := ":first-"
@@ -70,22 +88,52 @@ func (c nthPseudoClassSelector) String() string {
 	case [2]bool{false, false}:
 		name = "nth-child"
 	}
-	return fmt.Sprintf(":%s(%dn+%d)", name, c.a, c.b)
+	return fmt.Sprintf(":%s(%dn%+d)", name, c.a, c.b)
 }
+
 func (c onlyChildPseudoClassSelector) String() string {
 	if c.ofType {
 		return ":only-of-type"
 	}
 	return ":only-child"
 }
+
 func (c inputPseudoClassSelector) String() string {
 	return ":input"
 }
+
 func (c emptyElementPseudoClassSelector) String() string {
 	return ":empty"
 }
+
 func (c rootPseudoClassSelector) String() string {
 	return ":root"
+}
+
+func (c linkPseudoClassSelector) String() string {
+	if c.visited {
+		return ":visited"
+	}
+	return ":link"
+}
+
+func (c langPseudoClassSelector) String() string {
+	return fmt.Sprintf(":lang(%s)", c.lang)
+}
+
+func (c neverMatchSelector) String() string {
+	return c.value
+}
+
+func (c enabledPseudoClassSelector) String() string {
+	return ":enabled"
+}
+
+func (c disabledPseudoClassSelector) String() string {
+	return ":disabled"
+}
+func (c checkedPseudoClassSelector) String() string {
+	return ":checked"
 }
 
 func (c compoundSelector) String() string {
