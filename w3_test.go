@@ -90,7 +90,7 @@ func TestValidSelectors(t *testing.T) {
 		}
 		sels, err := ParseGroupWithPseudoElements(test.Selector)
 		if err != nil {
-			t.Errorf("%s -> unable to parse valid selector : %s : %s", test.Name, test.Selector, err)
+			t.Fatalf("%s -> unable to parse valid selector : %s : %s", test.Name, test.Selector, err)
 		}
 		matchingIds := map[string]bool{}
 		for _, sel := range sels {
@@ -102,7 +102,7 @@ func TestValidSelectors(t *testing.T) {
 			}
 		}
 		if !isEqual(matchingIds, test.Expect) {
-			t.Errorf("%s : expected %v got %v", test.Name, test.Expect, matchingIds)
+			t.Fatalf("%s : expected %v got %v", test.Name, test.Expect, matchingIds)
 		}
 
 	}
