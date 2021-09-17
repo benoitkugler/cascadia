@@ -10,6 +10,7 @@ var identifierTests = map[string]string{
 	"-x":            "-x",
 	`r\e9 sumé`:     "résumé",
 	`r\0000e9 sumé`: "résumé",
+	`r\0000e9sumé`:  "résumé",
 	`a\"b`:          `a"b`,
 }
 
@@ -17,7 +18,6 @@ func TestParseIdentifier(t *testing.T) {
 	for source, want := range identifierTests {
 		p := &parser{s: source}
 		got, err := p.parseIdentifier()
-
 		if err != nil {
 			if want == "" {
 				// It was supposed to be an error.
@@ -52,6 +52,7 @@ var stringTests = map[string]string{
 	"'x\\\r\nx'":      "xx",
 	`"r\e9 sumé"`:     "résumé",
 	`"r\0000e9 sumé"`: "résumé",
+	`"r\0000e9sumé"`:  "résumé",
 	`"a\"b"`:          `a"b`,
 }
 
@@ -59,7 +60,6 @@ func TestParseString(t *testing.T) {
 	for source, want := range stringTests {
 		p := &parser{s: source}
 		got, err := p.parseString()
-
 		if err != nil {
 			if want == "" {
 				// It was supposed to be an error.
