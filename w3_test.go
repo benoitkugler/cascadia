@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"reflect"
 	"testing"
 
 	"golang.org/x/net/html"
@@ -61,19 +62,15 @@ func getId(n *html.Node) string {
 	return ""
 }
 
-func isEqual(m map[string]bool, l []string) bool {
-	if len(m) != len(l) {
-		return false
-	}
+func isEqual(m map[string]int, l []string) bool {
+	expected := map[string]int{}
 	for _, s := range l {
-		if !m[s] {
-			return false
-		}
+		expected[s]++
 	}
-	return true
+	return reflect.DeepEqual(m, expected)
 }
 
-func TestValidSelectors(t *testing.T) {
+func loadValidSelectors(t *testing.T) []validSelector {
 	c, err := ioutil.ReadFile("test_ressources/valid_selectors.json")
 	if err != nil {
 		t.Fatal(err)
@@ -82,8 +79,13 @@ func TestValidSelectors(t *testing.T) {
 	if err = json.Unmarshal(c, &tests); err != nil {
 		t.Fatal(err)
 	}
+	return tests
+}
+
+func TestValidSelectors(t *testing.T) {
+	tests := loadValidSelectors(t)
 	doc := parseReference()
-	for _, test := range tests {
+	for i, test := range tests {
 		if test.Xfail {
 			t.Logf("skiped test %s", test.Name)
 			continue
@@ -92,17 +94,21 @@ func TestValidSelectors(t *testing.T) {
 		if err != nil {
 			t.Fatalf("%s -> unable to parse valid selector : %s : %s", test.Name, test.Selector, err)
 		}
-		matchingIds := map[string]bool{}
+		matchingNodes := map[*html.Node]bool{}
 		for _, sel := range sels {
 			if sel.PseudoElement() != "" {
 				continue // pseudo element doesn't count as a match in this test since they are not part of the document
 			}
 			for _, node := range Selector(sel.Match).MatchAll(doc) {
-				matchingIds[getId(node)] = true
+				matchingNodes[node] = true
 			}
 		}
+		matchingIds := map[string]int{}
+		for node := range matchingNodes {
+			matchingIds[getId(node)]++
+		}
 		if !isEqual(matchingIds, test.Expect) {
-			t.Fatalf("%s : expected %v got %v", test.Name, test.Expect, matchingIds)
+			t.Fatalf("test %d %s : expected %v got %v", i, test.Name, test.Expect, matchingIds)
 		}
 
 	}

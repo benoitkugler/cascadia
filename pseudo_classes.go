@@ -89,8 +89,8 @@ func (c relativePseudoClassSelector) PseudoElement() string {
 
 type containsPseudoClassSelector struct {
 	abstractPseudoClass
-	own   bool
 	value string
+	own   bool
 }
 
 func (s containsPseudoClassSelector) Match(n *html.Node) bool {
@@ -107,8 +107,8 @@ func (s containsPseudoClassSelector) Match(n *html.Node) bool {
 
 type regexpPseudoClassSelector struct {
 	abstractPseudoClass
-	own    bool
 	regexp *regexp.Regexp
+	own    bool
 }
 
 func (s regexpPseudoClassSelector) Match(n *html.Node) bool {
@@ -340,8 +340,14 @@ func (s emptyElementPseudoClassSelector) Match(n *html.Node) bool {
 
 	for c := n.FirstChild; c != nil; c = c.NextSibling {
 		switch c.Type {
-		case html.ElementNode, html.TextNode:
+		case html.ElementNode:
 			return false
+		case html.TextNode:
+			if strings.TrimSpace(nodeText(c)) == "" {
+				continue
+			} else {
+				return false
+			}
 		}
 	}
 
@@ -383,9 +389,13 @@ type langPseudoClassSelector struct {
 }
 
 func (s langPseudoClassSelector) Match(n *html.Node) bool {
-	return matchAttribute(n, "lang", func(val string) bool {
+	own := matchAttribute(n, "lang", func(val string) bool {
 		return val == s.lang || strings.HasPrefix(val, s.lang+"-")
 	})
+	if n.Parent == nil {
+		return own
+	}
+	return own || s.Match(n.Parent)
 }
 
 type enabledPseudoClassSelector struct {

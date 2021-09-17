@@ -2,6 +2,7 @@ package cascadia
 
 import (
 	"fmt"
+	"strconv"
 	"strings"
 )
 
@@ -73,7 +74,11 @@ func (c nthPseudoClassSelector) String() string {
 	case [2]bool{false, false}:
 		name = "nth-child"
 	}
-	return fmt.Sprintf(":%s(%dn+%d)", name, c.a, c.b)
+	s := fmt.Sprintf("+%d", c.b)
+	if c.b < 0 { // avoid +-8 invalid syntax
+		s = strconv.Itoa(c.b)
+	}
+	return fmt.Sprintf(":%s(%dn%s)", name, c.a, s)
 }
 
 func (c onlyChildPseudoClassSelector) String() string {
@@ -117,6 +122,7 @@ func (c enabledPseudoClassSelector) String() string {
 func (c disabledPseudoClassSelector) String() string {
 	return ":disabled"
 }
+
 func (c checkedPseudoClassSelector) String() string {
 	return ":checked"
 }

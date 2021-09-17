@@ -2,15 +2,27 @@
   {
     "name": "Type selector, matching html element",
     "selector": "html",
-    "expect": ["html"],
-    "exclude": ["element", "fragment", "detached"],
+    "expect": [
+      "html"
+    ],
+    "exclude": [
+      "element",
+      "fragment",
+      "detached"
+    ],
     "level": 1
   },
   {
     "name": "Type selector, matching body element",
     "selector": "body",
-    "expect": ["body"],
-    "exclude": ["element", "fragment", "detached"],
+    "expect": [
+      "body"
+    ],
+    "exclude": [
+      "element",
+      "fragment",
+      "detached"
+    ],
     "level": 1
   },
   {
@@ -62,26 +74,38 @@
   {
     "name": "Attribute presence selector, matching align attribute with value",
     "selector": ".attr-presence-div1[align]",
-    "expect": ["attr-presence-div1"],
+    "expect": [
+      "attr-presence-div1"
+    ],
     "level": 2
   },
   {
     "name": "Attribute presence selector, matching align attribute with empty value",
     "selector": ".attr-presence-div2[align]",
-    "expect": ["attr-presence-div2"],
+    "expect": [
+      "attr-presence-div2"
+    ],
     "level": 2
   },
   {
     "name": "Attribute presence selector, matching title attribute, case insensitivity",
     "selector": "#attr-presence [TiTlE]",
-    "expect": ["attr-presence-a1", "attr-presence-span1"],
-    "exclude": ["xhtml"],
+    "expect": [
+      "attr-presence-a1",
+      "attr-presence-span1"
+    ],
+    "exclude": [
+      "xhtml"
+    ],
     "level": 2
   },
   {
     "name": "Attribute presence selector, matching custom data-* attribute",
     "selector": "[data-attr-presence]",
-    "expect": ["attr-presence-pre1", "attr-presence-blockquote1"],
+    "expect": [
+      "attr-presence-pre1",
+      "attr-presence-blockquote1"
+    ],
     "level": 2
   },
   {
@@ -93,7 +117,9 @@
   {
     "name": "Attribute presence selector, matching attribute with non-ASCII characters",
     "selector": "ul[data-中文]",
-    "expect": ["attr-presence-ul1"],
+    "expect": [
+      "attr-presence-ul1"
+    ],
     "level": 2
   },
   {
@@ -105,7 +131,9 @@
   {
     "name": "Attribute presence selector, matching option with selected attribute",
     "selector": "#attr-presence-select2 option[selected]",
-    "expect": ["attr-presence-select2-option4"],
+    "expect": [
+      "attr-presence-select2-option4"
+    ],
     "level": 2
   },
   {
@@ -120,13 +148,17 @@
   {
     "name": "Attribute value selector, matching align attribute with value",
     "selector": "#attr-value [align=\"center\"]",
-    "expect": ["attr-value-div1"],
+    "expect": [
+      "attr-value-div1"
+    ],
     "level": 2
   },
   {
     "name": "Attribute value selector, matching align attribute with empty value",
     "selector": "#attr-value [align=\"\"]",
-    "expect": ["attr-value-div2"],
+    "expect": [
+      "attr-value-div2"
+    ],
     "level": 2
   },
   {
@@ -144,13 +176,17 @@
   {
     "name": "Attribute value selector, matching custom data-* attribute with unicode escaped value",
     "selector": "[data-attr-value=\"\\e9\"]",
-    "expect": ["attr-value-div3"],
+    "expect": [
+      "attr-value-div3"
+    ],
     "level": 2
   },
   {
     "name": "Attribute value selector, matching custom data-* attribute with escaped character",
     "selector": "[data-attr-value_foo=\"\\e9\"]",
-    "expect": ["attr-value-div4"],
+    "expect": [
+      "attr-value-div4"
+    ],
     "level": 2
   },
   {
@@ -192,13 +228,17 @@
   {
     "name": "Attribute value selector, matching attribute with value using non-ASCII characters",
     "selector": "[data-attr-value=中文]",
-    "expect": ["attr-value-div5"],
+    "expect": [
+      "attr-value-div5"
+    ],
     "level": 2
   },
   {
     "name": "Attribute whitespace-separated list selector, matching class attribute with value",
     "selector": "#attr-whitespace [class~=\"div1\"]",
-    "expect": ["attr-whitespace-div1"],
+    "expect": [
+      "attr-whitespace-div1"
+    ],
     "level": 2
   },
   {
@@ -216,13 +256,17 @@
   {
     "name": "Attribute whitespace-separated list selector, matching custom data-* attribute with unicode escaped value",
     "selector": "[data-attr-whitespace~=\"\\0000e9\"]",
-    "expect": ["attr-whitespace-div4"],
+    "expect": [
+      "attr-whitespace-div4"
+    ],
     "level": 2
   },
   {
     "name": "Attribute whitespace-separated list selector, matching custom data-* attribute with escaped character",
     "selector": "[data-attr-whitespace_foo~=\"\\e9\"]",
-    "expect": ["attr-whitespace-div5"],
+    "expect": [
+      "attr-whitespace-div5"
+    ],
     "level": 2
   },
   {
@@ -270,7 +314,9 @@
   {
     "name": "Attribute whitespace-separated list selector, matching title attribute with value using non-ASCII characters",
     "selector": "#attr-whitespace [title~=中文]",
-    "expect": ["attr-whitespace-p1"],
+    "expect": [
+      "attr-whitespace-p1"
+    ],
     "level": 2
   },
   {
@@ -282,13 +328,17 @@
   {
     "name": "Attribute hyphen-separated list selector, matching lang attribute with exact value",
     "selector": "#attr-hyphen-div2[lang|=\"fr\"]",
-    "expect": ["attr-hyphen-div2"],
+    "expect": [
+      "attr-hyphen-div2"
+    ],
     "level": 2
   },
   {
     "name": "Attribute hyphen-separated list selector, matching lang attribute with partial value",
     "selector": "#attr-hyphen-div3[lang|=\"en\"]",
-    "expect": ["attr-hyphen-div3"],
+    "expect": [
+      "attr-hyphen-div3"
+    ],
     "level": 2
   },
   {
@@ -300,13 +350,19 @@
   {
     "name": "Attribute begins with selector, matching href attributes beginning with specified substring",
     "selector": "#attr-begins a[href^=\"http://www\"]",
-    "expect": ["attr-begins-a1", "attr-begins-a3"],
+    "expect": [
+      "attr-begins-a1",
+      "attr-begins-a3"
+    ],
     "level": 3
   },
   {
     "name": "Attribute begins with selector, matching lang attributes beginning with specified substring, ",
     "selector": "#attr-begins [lang^=\"en-\"]",
-    "expect": ["attr-begins-div2", "attr-begins-div4"],
+    "expect": [
+      "attr-begins-div2",
+      "attr-begins-div4"
+    ],
     "level": 3
   },
   {
@@ -318,13 +374,17 @@
   {
     "name": "Attribute begins with selector with single-quoted value, matching class attribute beginning with specified substring",
     "selector": "#attr-begins [class^=' apple']",
-    "expect": ["attr-begins-p1"],
+    "expect": [
+      "attr-begins-p1"
+    ],
     "level": 3
   },
   {
     "name": "Attribute begins with selector with double-quoted value, matching class attribute beginning with specified substring",
     "selector": "#attr-begins [class^=\" apple\"]",
-    "expect": ["attr-begins-p1"],
+    "expect": [
+      "attr-begins-p1"
+    ],
     "level": 3
   },
   {
@@ -336,13 +396,19 @@
   {
     "name": "Attribute ends with selector, matching href attributes ending with specified substring",
     "selector": "#attr-ends a[href$=\".org\"]",
-    "expect": ["attr-ends-a1", "attr-ends-a3"],
+    "expect": [
+      "attr-ends-a1",
+      "attr-ends-a3"
+    ],
     "level": 3
   },
   {
     "name": "Attribute ends with selector, matching lang attributes ending with specified substring, ",
     "selector": "#attr-ends [lang$=\"-CH\"]",
-    "expect": ["attr-ends-div2", "attr-ends-div4"],
+    "expect": [
+      "attr-ends-div2",
+      "attr-ends-div4"
+    ],
     "level": 3
   },
   {
@@ -354,13 +420,17 @@
   {
     "name": "Attribute ends with selector with single-quoted value, matching class attribute ending with specified substring",
     "selector": "#attr-ends [class$='apple ']",
-    "expect": ["attr-ends-p1"],
+    "expect": [
+      "attr-ends-p1"
+    ],
     "level": 3
   },
   {
     "name": "Attribute ends with selector with double-quoted value, matching class attribute ending with specified substring",
     "selector": "#attr-ends [class$=\"apple \"]",
-    "expect": ["attr-ends-p1"],
+    "expect": [
+      "attr-ends-p1"
+    ],
     "level": 3
   },
   {
@@ -372,92 +442,131 @@
   {
     "name": "Attribute contains selector, matching href attributes beginning with specified substring",
     "selector": "#attr-contains a[href*=\"http://www\"]",
-    "expect": ["attr-contains-a1", "attr-contains-a3"],
+    "expect": [
+      "attr-contains-a1",
+      "attr-contains-a3"
+    ],
     "level": 3
   },
   {
     "name": "Attribute contains selector, matching href attributes ending with specified substring",
     "selector": "#attr-contains a[href*=\".org\"]",
-    "expect": ["attr-contains-a1", "attr-contains-a2"],
+    "expect": [
+      "attr-contains-a1",
+      "attr-contains-a2"
+    ],
     "level": 3
   },
   {
     "name": "Attribute contains selector, matching href attributes containing specified substring",
     "selector": "#attr-contains a[href*=\".example.\"]",
-    "expect": ["attr-contains-a1", "attr-contains-a3"],
+    "expect": [
+      "attr-contains-a1",
+      "attr-contains-a3"
+    ],
     "level": 3
   },
   {
     "name": "Attribute contains selector, matching lang attributes beginning with specified substring, ",
     "selector": "#attr-contains [lang*=\"en-\"]",
-    "expect": ["attr-contains-div2", "attr-contains-div6"],
+    "expect": [
+      "attr-contains-div2",
+      "attr-contains-div6"
+    ],
     "level": 3
   },
   {
     "name": "Attribute contains selector, matching lang attributes ending with specified substring, ",
     "selector": "#attr-contains [lang*=\"-CH\"]",
-    "expect": ["attr-contains-div3", "attr-contains-div5"],
+    "expect": [
+      "attr-contains-div3",
+      "attr-contains-div5"
+    ],
     "level": 3
   },
   {
     "name": "Attribute contains selector with single-quoted value, matching class attribute beginning with specified substring",
     "selector": "#attr-contains [class*=' apple']",
-    "expect": ["attr-contains-p1"],
+    "expect": [
+      "attr-contains-p1"
+    ],
     "level": 3
   },
   {
     "name": "Attribute contains selector with single-quoted value, matching class attribute ending with specified substring",
     "selector": "#attr-contains [class*='orange ']",
-    "expect": ["attr-contains-p1"],
+    "expect": [
+      "attr-contains-p1"
+    ],
     "level": 3
   },
   {
     "name": "Attribute contains selector with single-quoted value, matching class attribute containing specified substring",
     "selector": "#attr-contains [class*='ple banana ora']",
-    "expect": ["attr-contains-p1"],
+    "expect": [
+      "attr-contains-p1"
+    ],
     "level": 3
   },
   {
     "name": "Attribute contains selector with double-quoted value, matching class attribute beginning with specified substring",
     "selector": "#attr-contains [class*=\" apple\"]",
-    "expect": ["attr-contains-p1"],
+    "expect": [
+      "attr-contains-p1"
+    ],
     "level": 3
   },
   {
     "name": "Attribute contains selector with double-quoted value, matching class attribute ending with specified substring",
     "selector": "#attr-contains [class*=\"orange \"]",
-    "expect": ["attr-contains-p1"],
+    "expect": [
+      "attr-contains-p1"
+    ],
     "level": 3
   },
   {
     "name": "Attribute contains selector with double-quoted value, matching class attribute containing specified substring",
     "selector": "#attr-contains [class*=\"ple banana ora\"]",
-    "expect": ["attr-contains-p1"],
+    "expect": [
+      "attr-contains-p1"
+    ],
     "level": 3
   },
   {
     "name": "Attribute contains selector with unquoted value, matching class attribute beginning with specified substring",
     "selector": "#attr-contains [class*= apple]",
-    "expect": ["attr-contains-p1"],
+    "expect": [
+      "attr-contains-p1"
+    ],
     "level": 3
   },
   {
     "name": "Attribute contains selector with unquoted value, matching class attribute ending with specified substring",
     "selector": "#attr-contains [class*=orange ]",
-    "expect": ["attr-contains-p1"],
+    "expect": [
+      "attr-contains-p1"
+    ],
     "level": 3
   },
   {
     "name": "Attribute contains selector with unquoted value, matching class attribute containing specified substring",
     "selector": "#attr-contains [class*= banana ]",
-    "expect": ["attr-contains-p1"],
+    "expect": [
+      "attr-contains-p1"
+    ],
     "level": 3
   },
   {
     "name": ":root pseudo-class selector, matching document root element",
     "selector": ":root",
-    "expect": ["html"],
-    "exclude": ["element", "fragment", "detached"],
+    "expect": [
+      "html"
+    ],
+    "exclude": [
+      "element",
+      "fragment",
+      "detached"
+    ],
     "level": 3
   },
   {
@@ -497,7 +606,10 @@
   {
     "name": ":nth-child selector, matching every fourth child element, starting from the third",
     "selector": "#pseudo-nth-p1 :nth-child(4n-1)",
-    "expect": ["pseudo-nth-em2", "pseudo-nth-span3"],
+    "expect": [
+      "pseudo-nth-em2",
+      "pseudo-nth-span3"
+    ],
     "level": 3
   },
   {
@@ -537,13 +649,18 @@
   {
     "name": ":nth-last-child selector, matching every fourth element from the end, starting from the third last",
     "selector": "#pseudo-nth-p1 :nth-last-child(4n-1)",
-    "expect": ["pseudo-nth-span2", "pseudo-nth-span4"],
+    "expect": [
+      "pseudo-nth-span2",
+      "pseudo-nth-span4"
+    ],
     "level": 3
   },
   {
     "name": ":nth-of-type selector, matching the third em element",
     "selector": "#pseudo-nth-p1 em:nth-of-type(3)",
-    "expect": ["pseudo-nth-em3"],
+    "expect": [
+      "pseudo-nth-em3"
+    ],
     "level": 3
   },
   {
@@ -561,13 +678,18 @@
   {
     "name": ":nth-of-type selector, matching every second elemetn of their type, starting from the first",
     "selector": "#pseudo-nth-p1 span:nth-of-type(2n-1)",
-    "expect": ["pseudo-nth-span1", "pseudo-nth-span3"],
+    "expect": [
+      "pseudo-nth-span1",
+      "pseudo-nth-span3"
+    ],
     "level": 3
   },
   {
     "name": ":nth-last-of-type selector, matching the thrid last em element",
     "selector": "#pseudo-nth-p1 em:nth-last-of-type(3)",
-    "expect": ["pseudo-nth-em2"],
+    "expect": [
+      "pseudo-nth-em2"
+    ],
     "level": 3
   },
   {
@@ -585,49 +707,74 @@
   {
     "name": ":nth-last-of-type selector, matching every second last element of their type, starting from the last",
     "selector": "#pseudo-nth-p1 span:nth-last-of-type(2n-1)",
-    "expect": ["pseudo-nth-span2", "pseudo-nth-span4"],
+    "expect": [
+      "pseudo-nth-span2",
+      "pseudo-nth-span4"
+    ],
     "level": 3
   },
   {
     "name": ":first-of-type selector, matching the first em element",
     "selector": "#pseudo-nth-p1 em:first-of-type",
-    "expect": ["pseudo-nth-em1"],
+    "expect": [
+      "pseudo-nth-em1"
+    ],
     "level": 3
   },
   {
     "name": ":first-of-type selector, matching the first of every type of element",
     "selector": "#pseudo-nth-p1 :first-of-type",
-    "expect": ["pseudo-nth-span1", "pseudo-nth-em1", "pseudo-nth-strong1"],
+    "expect": [
+      "pseudo-nth-span1",
+      "pseudo-nth-em1",
+      "pseudo-nth-strong1"
+    ],
     "level": 3
   },
   {
     "name": ":first-of-type selector, matching the first td element in each table row",
     "selector": "#pseudo-nth-table1 tr :first-of-type",
-    "expect": ["pseudo-nth-td1", "pseudo-nth-td7", "pseudo-nth-td13"],
+    "expect": [
+      "pseudo-nth-td1",
+      "pseudo-nth-td7",
+      "pseudo-nth-td13"
+    ],
     "level": 3
   },
   {
     "name": ":last-of-type selector, matching the last em elemnet",
     "selector": "#pseudo-nth-p1 em:last-of-type",
-    "expect": ["pseudo-nth-em4"],
+    "expect": [
+      "pseudo-nth-em4"
+    ],
     "level": 3
   },
   {
     "name": ":last-of-type selector, matching the last of every type of element",
     "selector": "#pseudo-nth-p1 :last-of-type",
-    "expect": ["pseudo-nth-span4", "pseudo-nth-strong2", "pseudo-nth-em4"],
+    "expect": [
+      "pseudo-nth-span4",
+      "pseudo-nth-strong2",
+      "pseudo-nth-em4"
+    ],
     "level": 3
   },
   {
     "name": ":last-of-type selector, matching the last td element in each table row",
     "selector": "#pseudo-nth-table1 tr :last-of-type",
-    "expect": ["pseudo-nth-td6", "pseudo-nth-td12", "pseudo-nth-td18"],
+    "expect": [
+      "pseudo-nth-td6",
+      "pseudo-nth-td12",
+      "pseudo-nth-td18"
+    ],
     "level": 3
   },
   {
     "name": ":first-child pseudo-class selector, matching first child div element",
     "selector": "#pseudo-first-child div:first-child",
-    "expect": ["pseudo-first-child-div1"],
+    "expect": [
+      "pseudo-first-child-div1"
+    ],
     "level": 2
   },
   {
@@ -649,7 +796,9 @@
   {
     "name": ":last-child pseudo-class selector, matching last child div element",
     "selector": "#pseudo-last-child div:last-child",
-    "expect": ["pseudo-last-child-div3"],
+    "expect": [
+      "pseudo-last-child-div3"
+    ],
     "level": 3
   },
   {
@@ -671,7 +820,9 @@
   {
     "name": ":pseudo-only-child pseudo-class selector, matching all only-child elements",
     "selector": "#pseudo-only :only-child",
-    "expect": ["pseudo-only-span1"],
+    "expect": [
+      "pseudo-only-span1"
+    ],
     "level": 3
   },
   {
@@ -683,65 +834,104 @@
   {
     "name": ":pseudo-only-of-type pseudo-class selector, matching all elements with no siblings of the same type",
     "selector": "#pseudo-only :only-of-type",
-    "expect": ["pseudo-only-span1", "pseudo-only-em1"],
+    "expect": [
+      "pseudo-only-span1",
+      "pseudo-only-em1"
+    ],
     "level": 3
   },
   {
     "name": ":pseudo-only-of-type pseudo-class selector, matching em elements with no siblings of the same type",
     "selector": "#pseudo-only em:only-of-type",
-    "expect": ["pseudo-only-em1"],
+    "expect": [
+      "pseudo-only-em1"
+    ],
     "level": 3
   },
   {
     "name": ":empty pseudo-class selector, matching empty p elements",
     "selector": "#pseudo-empty p:empty",
-    "expect": ["pseudo-empty-p1", "pseudo-empty-p2"],
+    "expect": [
+      "pseudo-empty-p1",
+      "pseudo-empty-p2",
+      "pseudo-empty-p3"
+    ],
     "level": 3
   },
   {
     "name": ":empty pseudo-class selector, matching all empty elements",
     "selector": "#pseudo-empty :empty",
-    "expect": ["pseudo-empty-p1", "pseudo-empty-p2", "pseudo-empty-span1"],
+    "expect": [
+      "pseudo-empty-p1",
+      "pseudo-empty-p2",
+      "pseudo-empty-p3",
+      "pseudo-empty-span1"
+    ],
     "level": 3
   },
   {
     "name": ":link and :visited pseudo-class selectors, matching a and area elements with href attributes",
     "selector": "#pseudo-link :link, #pseudo-link :visited",
-    "expect": ["pseudo-link-a1", "pseudo-link-a2", "pseudo-link-area1"],
+    "expect": [
+      "pseudo-link-a1",
+      "pseudo-link-a2",
+      "pseudo-link-area1"
+    ],
     "level": 1
   },
   {
     "name": ":link and :visited pseudo-class selectors, matching link elements with href attributes",
     "selector": "#head :link, #head :visited",
-    "expect": ["pseudo-link-link1", "pseudo-link-link2"],
-    "exclude": ["element", "fragment", "detached"],
+    "expect": [
+      "pseudo-link-link1",
+      "pseudo-link-link2"
+    ],
+    "exclude": [
+      "element",
+      "fragment",
+      "detached"
+    ],
     "level": 1
   },
   {
     "name": ":target pseudo-class selector, matching the element referenced by the URL fragment identifier",
     "selector": ":target",
     "xfail": true,
-    "expect": ["target"],
-    "exclude": ["fragment", "detached"],
+    "expect": [
+      "target"
+    ],
+    "exclude": [
+      "fragment",
+      "detached"
+    ],
     "level": 3
   },
   {
     "name": ":lang pseudo-class selector, matching inherited language",
     "selector": "#pseudo-lang-div1:lang(en)",
-    "expect": ["pseudo-lang-div1"],
-    "exclude": ["detached", "fragment"],
+    "expect": [
+      "pseudo-lang-div1"
+    ],
+    "exclude": [
+      "detached",
+      "fragment"
+    ],
     "level": 2
   },
   {
     "name": ":lang pseudo-class selector, matching specified language with exact value",
     "selector": "#pseudo-lang-div2:lang(fr)",
-    "expect": ["pseudo-lang-div2"],
+    "expect": [
+      "pseudo-lang-div2"
+    ],
     "level": 2
   },
   {
     "name": ":lang pseudo-class selector, matching specified language with partial value",
     "selector": "#pseudo-lang-div3:lang(en)",
-    "expect": ["pseudo-lang-div3"],
+    "expect": [
+      "pseudo-lang-div3"
+    ],
     "level": 2
   },
   {
@@ -800,13 +990,21 @@
   {
     "name": ":not pseudo-class selector, matching ",
     "selector": "#not>:not(div)",
-    "expect": ["not-p1", "not-p2", "not-p3"],
+    "expect": [
+      "not-p1",
+      "not-p2",
+      "not-p3"
+    ],
     "level": 3
   },
   {
     "name": ":not pseudo-class selector, matching ",
     "selector": "#not * :not(:first-child)",
-    "expect": ["not-em1", "not-em2", "not-em3"],
+    "expect": [
+      "not-em1",
+      "not-em2",
+      "not-em3"
+    ],
     "level": 3
   },
   {
@@ -872,7 +1070,11 @@
   {
     "name": "Class selector, matching element with specified class",
     "selector": ".class-p",
-    "expect": ["class-p1", "class-p2", "class-p3"],
+    "expect": [
+      "class-p1",
+      "class-p2",
+      "class-p3"
+    ],
     "level": 1
   },
   {
@@ -891,61 +1093,87 @@
   {
     "name": "Class Selector, chained, with type selector",
     "selector": "div.apple.banana.orange",
-    "expect": ["class-div1", "class-div2", "class-div3", "class-div4"],
+    "expect": [
+      "class-div1",
+      "class-div2",
+      "class-div3",
+      "class-div4"
+    ],
     "level": 1
   },
   {
     "name": "Class selector, matching element with class value using non-ASCII characters",
     "selector": ".台北Táiběi",
-    "expect": ["class-span1"],
+    "expect": [
+      "class-span1"
+    ],
     "level": 1
   },
   {
     "name": "Class selector, matching multiple elements with class value using non-ASCII characters",
     "selector": ".台北",
-    "expect": ["class-span1", "class-span2"],
+    "expect": [
+      "class-span1",
+      "class-span2"
+    ],
     "level": 1
   },
   {
     "name": "Class selector, chained, matching element with multiple class values using non-ASCII characters",
     "selector": ".台北Táiběi.台北",
-    "expect": ["class-span1"],
+    "expect": [
+      "class-span1"
+    ],
     "level": 1
   },
   {
     "name": "Class selector, matching element with class with escaped character",
     "selector": ".foo\\:bar",
-    "expect": ["class-span3"],
+    "expect": [
+      "class-span3"
+    ],
     "level": 1
   },
   {
     "name": "Class selector, matching element with class with escaped character",
     "selector": ".test\\.foo\\[5\\]bar",
-    "expect": ["class-span4"],
+    "expect": [
+      "class-span4"
+    ],
     "level": 1
   },
   {
     "name": "ID selector, matching element with specified id",
     "selector": "#id #id-div1",
-    "expect": ["id-div1"],
+    "expect": [
+      "id-div1"
+    ],
     "level": 1
   },
   {
     "name": "ID selector, chained, matching element with specified id",
     "selector": "#id-div1, #id-div1",
-    "expect": ["id-div1"],
+    "expect": [
+      "id-div1"
+    ],
     "level": 1
   },
   {
     "name": "ID selector, chained, matching element with specified id",
     "selector": "#id-div1, #id-div2",
-    "expect": ["id-div1", "id-div2"],
+    "expect": [
+      "id-div1",
+      "id-div2"
+    ],
     "level": 1
   },
   {
     "name": "ID Selector, chained, with type selector",
     "selector": "div#id-div1, div#id-div2",
-    "expect": ["id-div1", "id-div2"],
+    "expect": [
+      "id-div1",
+      "id-div2"
+    ],
     "level": 1
   },
   {
@@ -974,31 +1202,42 @@
   {
     "name": "ID selector, matching id value using non-ASCII characters",
     "selector": "#台北Táiběi",
-    "expect": ["台北Táiběi"],
+    "expect": [
+      "台北Táiběi"
+    ],
     "level": 1
   },
   {
     "name": "ID selector, matching id value using non-ASCII characters",
     "selector": "#台北",
-    "expect": ["台北"],
+    "expect": [
+      "台北"
+    ],
     "level": 1
   },
   {
     "name": "ID selector, matching id values using non-ASCII characters",
     "selector": "#台北Táiběi, #台北",
-    "expect": ["台北Táiběi", "台北"],
+    "expect": [
+      "台北Táiběi",
+      "台北"
+    ],
     "level": 1
   },
   {
     "name": "ID selector, matching element with id with escaped character",
     "selector": "#\\#foo\\:bar",
-    "expect": ["#foo:bar"],
+    "expect": [
+      "#foo:bar"
+    ],
     "level": 1
   },
   {
     "name": "ID selector, matching element with id with escaped character",
     "selector": "#test\\.foo\\[5\\]bar",
-    "expect": ["test.foo[5]bar"],
+    "expect": [
+      "test.foo[5]bar"
+    ],
     "level": 1
   },
   {
@@ -1016,14 +1255,18 @@
   {
     "name": "Namespace selector, matching div elements in no namespace only",
     "selector": "#no-namespace |div",
-    "expect": ["no-namespace-div3"],
+    "expect": [
+      "no-namespace-div3"
+    ],
     "level": 3,
     "xfail": true
   },
   {
     "name": "Namespace selector, matching any elements in no namespace only",
     "selector": "#no-namespace |*",
-    "expect": ["no-namespace-div3"],
+    "expect": [
+      "no-namespace-div3"
+    ],
     "level": 3,
     "xfail": true
   },
@@ -1041,32 +1284,45 @@
   {
     "name": "Descendant combinator, matching element with id that is a descendant of an element",
     "selector": "body #descendant-div1",
-    "expect": ["descendant-div1"],
-    "exclude": ["detached", "fragment"],
+    "expect": [
+      "descendant-div1"
+    ],
+    "exclude": [
+      "detached",
+      "fragment"
+    ],
     "level": 1
   },
   {
     "name": "Descendant combinator, matching element with id that is a descendant of an element",
     "selector": "div #descendant-div1",
-    "expect": ["descendant-div1"],
+    "expect": [
+      "descendant-div1"
+    ],
     "level": 1
   },
   {
     "name": "Descendant combinator, matching element with id that is a descendant of an element with id",
     "selector": "#descendant #descendant-div2",
-    "expect": ["descendant-div2"],
+    "expect": [
+      "descendant-div2"
+    ],
     "level": 1
   },
   {
     "name": "Descendant combinator, matching element with class that is a descendant of an element with id",
     "selector": "#descendant .descendant-div2",
-    "expect": ["descendant-div2"],
+    "expect": [
+      "descendant-div2"
+    ],
     "level": 1
   },
   {
     "name": "Descendant combinator, matching element with class that is a descendant of an element with class",
     "selector": ".descendant-div1 .descendant-div3",
-    "expect": ["descendant-div3"],
+    "expect": [
+      "descendant-div3"
+    ],
     "level": 1
   },
   {
@@ -1078,37 +1334,50 @@
   {
     "name": "Descendant combinator, whitespace characters",
     "selector": "#descendant\t\r\n#descendant-div2",
-    "expect": ["descendant-div2"],
+    "expect": [
+      "descendant-div2"
+    ],
     "level": 1
   },
   {
     "name": "Child combinator, matching element that is a child of an element with id",
     "selector": "#child>div",
-    "expect": ["child-div1", "child-div4"],
+    "expect": [
+      "child-div1",
+      "child-div4"
+    ],
     "level": 2
   },
   {
     "name": "Child combinator, matching element with id that is a child of an element",
     "selector": "div>#child-div1",
-    "expect": ["child-div1"],
+    "expect": [
+      "child-div1"
+    ],
     "level": 2
   },
   {
     "name": "Child combinator, matching element with id that is a child of an element with id",
     "selector": "#child>#child-div1",
-    "expect": ["child-div1"],
+    "expect": [
+      "child-div1"
+    ],
     "level": 2
   },
   {
     "name": "Child combinator, matching element with id that is a child of an element with class",
     "selector": "#child-div1>.child-div2",
-    "expect": ["child-div2"],
+    "expect": [
+      "child-div2"
+    ],
     "level": 2
   },
   {
     "name": "Child combinator, matching element with class that is a child of an element with class",
     "selector": ".child-div1>.child-div2",
-    "expect": ["child-div2"],
+    "expect": [
+      "child-div2"
+    ],
     "level": 2
   },
   {
@@ -1132,61 +1401,81 @@
   {
     "name": "Child combinator, surrounded by whitespace",
     "selector": "#child-div1\t\r\n>\t\r\n#child-div2",
-    "expect": ["child-div2"],
+    "expect": [
+      "child-div2"
+    ],
     "level": 2
   },
   {
     "name": "Child combinator, whitespace after",
     "selector": "#child-div1>\t\r\n#child-div2",
-    "expect": ["child-div2"],
+    "expect": [
+      "child-div2"
+    ],
     "level": 2
   },
   {
     "name": "Child combinator, whitespace before",
     "selector": "#child-div1\t\r\n>#child-div2",
-    "expect": ["child-div2"],
+    "expect": [
+      "child-div2"
+    ],
     "level": 2
   },
   {
     "name": "Child combinator, no whitespace",
     "selector": "#child-div1>#child-div2",
-    "expect": ["child-div2"],
+    "expect": [
+      "child-div2"
+    ],
     "level": 2
   },
   {
     "name": "Adjacent sibling combinator, matching element that is an adjacent sibling of an element with id",
     "selector": "#adjacent-div2+div",
-    "expect": ["adjacent-div4"],
+    "expect": [
+      "adjacent-div4"
+    ],
     "level": 2
   },
   {
     "name": "Adjacent sibling combinator, matching element with id that is an adjacent sibling of an element",
     "selector": "div+#adjacent-div4",
-    "expect": ["adjacent-div4"],
+    "expect": [
+      "adjacent-div4"
+    ],
     "level": 2
   },
   {
     "name": "Adjacent sibling combinator, matching element with id that is an adjacent sibling of an element with id",
     "selector": "#adjacent-div2+#adjacent-div4",
-    "expect": ["adjacent-div4"],
+    "expect": [
+      "adjacent-div4"
+    ],
     "level": 2
   },
   {
     "name": "Adjacent sibling combinator, matching element with class that is an adjacent sibling of an element with id",
     "selector": "#adjacent-div2+.adjacent-div4",
-    "expect": ["adjacent-div4"],
+    "expect": [
+      "adjacent-div4"
+    ],
     "level": 2
   },
   {
     "name": "Adjacent sibling combinator, matching element with class that is an adjacent sibling of an element with class",
     "selector": ".adjacent-div2+.adjacent-div4",
-    "expect": ["adjacent-div4"],
+    "expect": [
+      "adjacent-div4"
+    ],
     "level": 2
   },
   {
     "name": "Adjacent sibling combinator, matching p element that is an adjacent sibling of a div element",
     "selector": "#adjacent div+p",
-    "expect": ["adjacent-p2"],
+    "expect": [
+      "adjacent-p2"
+    ],
     "level": 2
   },
   {
@@ -1198,55 +1487,76 @@
   {
     "name": "Adjacent sibling combinator, surrounded by whitespace",
     "selector": "#adjacent-p2\t\r\n+\t\r\n#adjacent-p3",
-    "expect": ["adjacent-p3"],
+    "expect": [
+      "adjacent-p3"
+    ],
     "level": 2
   },
   {
     "name": "Adjacent sibling combinator, whitespace after",
     "selector": "#adjacent-p2+\t\r\n#adjacent-p3",
-    "expect": ["adjacent-p3"],
+    "expect": [
+      "adjacent-p3"
+    ],
     "level": 2
   },
   {
     "name": "Adjacent sibling combinator, whitespace before",
     "selector": "#adjacent-p2\t\r\n+#adjacent-p3",
-    "expect": ["adjacent-p3"],
+    "expect": [
+      "adjacent-p3"
+    ],
     "level": 2
   },
   {
     "name": "Adjacent sibling combinator, no whitespace",
     "selector": "#adjacent-p2+#adjacent-p3",
-    "expect": ["adjacent-p3"],
+    "expect": [
+      "adjacent-p3"
+    ],
     "level": 2
   },
   {
     "name": "General sibling combinator, matching element that is a sibling of an element with id",
     "selector": "#sibling-div2~div",
-    "expect": ["sibling-div4", "sibling-div6"],
+    "expect": [
+      "sibling-div4",
+      "sibling-div6"
+    ],
     "level": 3
   },
   {
     "name": "General sibling combinator, matching element with id that is a sibling of an element",
     "selector": "div~#sibling-div4",
-    "expect": ["sibling-div4"],
+    "expect": [
+      "sibling-div4"
+    ],
     "level": 3
   },
   {
     "name": "General sibling combinator, matching element with id that is a sibling of an element with id",
     "selector": "#sibling-div2~#sibling-div4",
-    "expect": ["sibling-div4"],
+    "expect": [
+      "sibling-div4"
+    ],
     "level": 3
   },
   {
     "name": "General sibling combinator, matching element with class that is a sibling of an element with id",
     "selector": "#sibling-div2~.sibling-div",
-    "expect": ["sibling-div4", "sibling-div6"],
+    "expect": [
+      "sibling-div4",
+      "sibling-div6"
+    ],
     "level": 3
   },
   {
     "name": "General sibling combinator, matching p element that is a sibling of a div element",
     "selector": "#sibling div~p",
-    "expect": ["sibling-p2", "sibling-p3"],
+    "expect": [
+      "sibling-p2",
+      "sibling-p3"
+    ],
     "level": 3
   },
   {
@@ -1264,49 +1574,69 @@
   {
     "name": "General sibling combinator, surrounded by whitespace",
     "selector": "#sibling-p2\t\r\n~\t\r\n#sibling-p3",
-    "expect": ["sibling-p3"],
+    "expect": [
+      "sibling-p3"
+    ],
     "level": 3
   },
   {
     "name": "General sibling combinator, whitespace after",
     "selector": "#sibling-p2~\t\r\n#sibling-p3",
-    "expect": ["sibling-p3"],
+    "expect": [
+      "sibling-p3"
+    ],
     "level": 3
   },
   {
     "name": "General sibling combinator, whitespace before",
     "selector": "#sibling-p2\t\r\n~#sibling-p3",
-    "expect": ["sibling-p3"],
+    "expect": [
+      "sibling-p3"
+    ],
     "level": 3
   },
   {
     "name": "General sibling combinator, no whitespace",
     "selector": "#sibling-p2~#sibling-p3",
-    "expect": ["sibling-p3"],
+    "expect": [
+      "sibling-p3"
+    ],
     "level": 3
   },
   {
     "name": "Syntax, group of selectors separator, surrounded by whitespace",
     "selector": "#group em\t\r \n,\t\r \n#group strong",
-    "expect": ["group-em1", "group-strong1"],
+    "expect": [
+      "group-em1",
+      "group-strong1"
+    ],
     "level": 1
   },
   {
     "name": "Syntax, group of selectors separator, whitespace after",
     "selector": "#group em,\t\r\n#group strong",
-    "expect": ["group-em1", "group-strong1"],
+    "expect": [
+      "group-em1",
+      "group-strong1"
+    ],
     "level": 1
   },
   {
     "name": "Syntax, group of selectors separator, whitespace before",
     "selector": "#group em\t\r\n,#group strong",
-    "expect": ["group-em1", "group-strong1"],
+    "expect": [
+      "group-em1",
+      "group-strong1"
+    ],
     "level": 1
   },
   {
     "name": "Syntax, group of selectors separator, no whitespace",
     "selector": "#group em,#group strong",
-    "expect": ["group-em1", "group-strong1"],
+    "expect": [
+      "group-em1",
+      "group-strong1"
+    ],
     "level": 1
   }
 ]
