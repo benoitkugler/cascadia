@@ -36,7 +36,7 @@ func (p *parser) parseEscape() (result string, err error) {
 		for i = start; i < start+6 && i < len(p.s) && hexDigit(p.s[i]); i++ {
 			// empty
 		}
-		v, _ := strconv.ParseUint(p.s[start:i], 16, 21)
+		v, _ := strconv.ParseUint(p.s[start:i], 16, 64)
 		if len(p.s) > i {
 			switch p.s[i] {
 			case '\r':
@@ -422,9 +422,11 @@ func (p *parser) parseAttributeSelector() (attrSelector, error) {
 	}
 }
 
-var errExpectedParenthesis = errors.New("expected '(' but didn't find it")
-var errExpectedClosingParenthesis = errors.New("expected ')' but didn't find it")
-var errUnmatchedParenthesis = errors.New("unmatched '('")
+var (
+	errExpectedParenthesis        = errors.New("expected '(' but didn't find it")
+	errExpectedClosingParenthesis = errors.New("expected ')' but didn't find it")
+	errUnmatchedParenthesis       = errors.New("unmatched '('")
+)
 
 // parsePseudoclassSelector parses a pseudoclass selector like :not(p) or a pseudo-element
 // For backwards compatibility, both ':' and '::' prefix are allowed for pseudo-elements.
