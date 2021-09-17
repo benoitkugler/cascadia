@@ -375,7 +375,6 @@ func hasAttr(n *html.Node, attr string) bool {
 
 type linkPseudoClassSelector struct {
 	abstractPseudoClass
-	visited bool
 }
 
 // Match implements :link

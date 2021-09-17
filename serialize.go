@@ -8,16 +8,29 @@ import (
 
 // implements the reverse operation Sel -> string
 
+var specialCharReplacer *strings.Replacer
+
+func init() {
+	var pairs []string
+	for _, s := range ",!\"#$%&'()*+ -./:;<=>?@[\\]^`{|}~" {
+		pairs = append(pairs, string(s), "\\"+string(s))
+	}
+	specialCharReplacer = strings.NewReplacer(pairs...)
+}
+
+// espace special CSS char
+func escape(s string) string { return specialCharReplacer.Replace(s) }
+
 func (c tagSelector) String() string {
 	return c.tag
 }
 
 func (c idSelector) String() string {
-	return "#" + c.id
+	return "#" + escape(c.id)
 }
 
 func (c classSelector) String() string {
-	return "." + c.class
+	return "." + escape(c.class)
 }
 
 func (c attrSelector) String() string {
@@ -101,9 +114,6 @@ func (c rootPseudoClassSelector) String() string {
 }
 
 func (c linkPseudoClassSelector) String() string {
-	if c.visited {
-		return ":visited"
-	}
 	return ":link"
 }
 

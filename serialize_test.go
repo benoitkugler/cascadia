@@ -20,22 +20,10 @@ func TestSerialize(t *testing.T) {
 		testSer = append(testSer, test.Selector)
 	}
 
-	xfails := map[string]struct{}{
-		// we dont correctly escape in Serialize
-		`.foo\:bar`:          {},
-		`.test\.foo\[5\]bar`: {},
-		`#\#foo\:bar`:        {},
-		`#test\.foo\[5\]bar`: {},
-	}
-
 	for _, test := range testSer {
 		s, err := ParseGroupWithPseudoElements(test)
 		if err != nil {
 			t.Fatalf("error compiling %q: %s", test, err)
-		}
-		if _, xfail := xfails[test]; xfail {
-			t.Logf("Skipping %s", test)
-			continue
 		}
 
 		serialized := s.String()

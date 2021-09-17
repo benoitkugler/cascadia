@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
-	"os"
+	"reflect"
 	"strings"
 	"testing"
 
@@ -753,6 +753,10 @@ func TestMatchers(t *testing.T) {
 				t.Errorf("Query: selector %s want %s, got %s", test.selector, test.results[0], got)
 			}
 		}
+
+		if !reflect.DeepEqual(matches, Selector(s.Match).Filter(matches)) {
+			t.Fatalf("inconsistent Filter result")
+		}
 	}
 }
 
@@ -839,90 +843,8 @@ type validSelector struct {
 	Xfail   bool     `json:"xfail,omitempty"`
 }
 
-func TestInvalidSelectors(t *testing.T) {
-	// Data borrowed from https://github.com/Kozea/cssselect2
-
-	c, err := ioutil.ReadFile("test_ressources/invalid_selectors.json")
-	if err != nil {
-		t.Fatal(err)
-	}
-	var tests []invalidSelector
-	if err = json.Unmarshal(c, &tests); err != nil {
-		t.Fatal(err)
-	}
-	for _, test := range tests {
-		_, err := ParseGroupWithPseudoElements(test.Selector)
-		if err == nil {
-			t.Fatalf("%s -> expected error on invalid selector : %s", test.Name, test.Selector)
-		}
-	}
-}
-
-func parseReference(file string) *html.Node {
-	f, err := os.Open("test_ressources/" + file)
-	if err != nil {
-		log.Fatal(err)
-	}
-	node, err := html.Parse(f)
-	if err != nil {
-		log.Fatal(err)
-	}
-	return node
-}
-
-func getId(n *html.Node) string {
-	for _, attr := range n.Attr {
-		if attr.Key == "id" {
-			return attr.Val
-		}
-	}
-	return ""
-}
-
-func isEqual(l1, l2 []string) bool {
-	if len(l1) != len(l2) {
-		return false
-	}
-	for i := range l1 {
-		if l1[i] != l2[i] {
-			return false
-		}
-	}
-	return true
-}
-
-func TestValidSelectors(t *testing.T) {
-	// Data borrowed from https://github.com/Kozea/cssselect2
-	doc := parseReference("content.xhtml")
-	for _, test := range validSelectors {
-		if test.Xfail {
-			t.Logf("skiped test %s", test.Name)
-			continue
-		}
-		sels, err := ParseGroupWithPseudoElements(test.Selector)
-		if err != nil {
-			t.Errorf("%s -> unable to parse valid selector : %s : %s", test.Name, test.Selector, err)
-		}
-		var filteredSels SelectorGroup
-		for _, sel := range sels {
-			// pseudo element doesn't count as a match in this test since they are not really part of the document
-			if sel.PseudoElement() == "" {
-				filteredSels = append(filteredSels, sel)
-			}
-		}
-		var totalIds []string
-		for _, node := range Selector(filteredSels.Match).MatchAll(doc) {
-			totalIds = append(totalIds, getId(node))
-		}
-		if !isEqual(totalIds, test.Expect) {
-			t.Errorf("%s : expected %v got %v", test.Name, test.Expect, totalIds)
-		}
-
-	}
-}
-
 func TestShakespeare(t *testing.T) {
-	doc := parseReference("shakespeare.html")
+	doc := parseReference("test_ressources/shakespeare.html")
 	body := doc.FirstChild.NextSibling.LastChild
 	assertCount := func(selector string, expected int) {
 		sel, err := ParseGroup(selector)

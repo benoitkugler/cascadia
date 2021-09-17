@@ -11,19 +11,6 @@ import (
 	"golang.org/x/net/html"
 )
 
-type invalidSelector struct {
-	Name     string `json:"name,omitempty"`
-	Selector string `json:"selector,omitempty"`
-}
-
-type validSelector struct {
-	invalidSelector
-	Expect  []string `json:"expect,omitempty"`
-	Exclude []string `json:"exclude,omitempty"`
-	Level   int      `json:"level,omitempty"`
-	Xfail   bool     `json:"xfail,omitempty"`
-}
-
 func TestInvalidSelectors(t *testing.T) {
 	c, err := ioutil.ReadFile("test_ressources/invalid_selectors.json")
 	if err != nil {
@@ -41,8 +28,8 @@ func TestInvalidSelectors(t *testing.T) {
 	}
 }
 
-func parseReference() *html.Node {
-	f, err := os.Open("test_ressources/content.xhtml")
+func parseReference(filename string) *html.Node {
+	f, err := os.Open(filename)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -84,7 +71,7 @@ func loadValidSelectors(t *testing.T) []validSelector {
 
 func TestValidSelectors(t *testing.T) {
 	tests := loadValidSelectors(t)
-	doc := parseReference()
+	doc := parseReference("test_ressources/content.xhtml")
 	for i, test := range tests {
 		if test.Xfail {
 			t.Logf("skiped test %s", test.Name)
