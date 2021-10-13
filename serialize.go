@@ -22,7 +22,10 @@ func init() {
 func escape(s string) string { return specialCharReplacer.Replace(s) }
 
 func (c tagSelector) String() string {
-	return c.tag
+	if c.tag != 0 {
+		return c.tag.String()
+	}
+	return c.tagS
 }
 
 func (c idSelector) String() string {

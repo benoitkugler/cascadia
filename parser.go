@@ -307,7 +307,7 @@ func (p *parser) parseTypeSelector() (result tagSelector, err error) {
 	if err != nil {
 		return
 	}
-	return tagSelector{tag: toLowerASCII(tag)}, nil
+	return newTagSelector(tag), nil
 }
 
 // parseIDSelector parses a selector that matches by id attribute.

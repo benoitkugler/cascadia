@@ -4,8 +4,10 @@ import (
 	"fmt"
 	"regexp"
 	"strings"
+	"unicode/utf8"
 
 	"golang.org/x/net/html"
+	"golang.org/x/net/html/atom"
 )
 
 // Matcher is the interface for basic selector functionality.
@@ -208,12 +210,22 @@ func Filter(nodes []*html.Node, m Matcher) (result []*html.Node) {
 }
 
 type tagSelector struct {
-	tag string
+	tagS string
+	tag  atom.Atom
+}
+
+func newTagSelector(tag string) tagSelector {
+	tag = toLowerASCII(tag)
+	tagAtom := atom.Lookup([]byte(tag))
+	if tagAtom == 0 { // default to string matching
+		return tagSelector{tagS: tag}
+	}
+	return tagSelector{tag: tagAtom}
 }
 
 // Matches elements with a given tag name.
 func (t tagSelector) Match(n *html.Node) bool {
-	return n.Type == html.ElementNode && n.Data == t.tag
+	return n.Type == html.ElementNode && ((n.DataAtom != 0 && n.DataAtom == t.tag) || n.Data == t.tagS)
 }
 
 func (c tagSelector) Specificity() Specificity {
@@ -296,9 +308,6 @@ func (t attrSelector) Match(n *html.Node) bool {
 
 // matches elements where the attribute named key satisifes the function f.
 func matchAttribute(n *html.Node, key string, f func(string) bool) bool {
-	if n.Type != html.ElementNode {
-		return false
-	}
 	for _, a := range n.Attr {
 		if a.Key == key && f(a.Val) {
 			return true
@@ -321,10 +330,47 @@ func attributeNotEqualMatch(key, val string, n *html.Node) bool {
 	return true
 }
 
+// asciiSet is a 32-byte value, where each bit represents the presence of a
+// given ASCII character in the set. The 128-bits of the lower 16 bytes,
+// starting with the least-significant bit of the lowest word to the
+// most-significant bit of the highest word, map to the full range of all
+// 128 ASCII characters. The 128-bits of the upper 16 bytes will be zeroed,
+// ensuring that any non-ASCII character will be reported as not in the set.
+type asciiSet [8]uint32
+
+// makeASCIISet creates a set of ASCII characters and reports whether all
+// characters in chars are ASCII.
+func makeASCIISet(chars string) (as asciiSet) {
+	for i := 0; i < len(chars); i++ {
+		c := chars[i]
+		if c >= utf8.RuneSelf {
+			panic("non ascii input")
+		}
+		as[c>>5] |= 1 << uint(c&31)
+	}
+	return as
+}
+
+// contains reports whether c is inside the set.
+func (as *asciiSet) contains(c byte) bool {
+	return (as[c>>5] & (1 << uint(c&31))) != 0
+}
+
+func (as *asciiSet) index(s string) int {
+	for i := 0; i < len(s); i++ {
+		if as.contains(s[i]) {
+			return i
+		}
+	}
+	return -1
+}
+
+var spaceAsciiSet = makeASCIISet(" \t\r\n\f")
+
 // returns true if s is a whitespace-separated list that includes val.
 func matchInclude(val, s string) bool {
 	for s != "" {
-		i := strings.IndexAny(s, " \t\r\n\f")
+		i := spaceAsciiSet.index(s)
 		if i == -1 {
 			return s == val
 		}
