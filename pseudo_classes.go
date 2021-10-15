@@ -359,6 +359,7 @@ type rootPseudoClassSelector struct {
 }
 
 // Match implements :root
+// "In HTML, :root represents the <html> element and is identical to the selector html"
 func (s rootPseudoClassSelector) Match(n *html.Node) bool {
 	return n.Type == html.ElementNode && n.DataAtom == atom.Html
 }
