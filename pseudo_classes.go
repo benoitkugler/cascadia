@@ -360,13 +360,7 @@ type rootPseudoClassSelector struct {
 
 // Match implements :root
 func (s rootPseudoClassSelector) Match(n *html.Node) bool {
-	if n.Type != html.ElementNode {
-		return false
-	}
-	if n.Parent == nil {
-		return false
-	}
-	return n.Parent.Type == html.DocumentNode
+	return n.Type == html.ElementNode && n.DataAtom == atom.Html
 }
 
 func hasAttr(n *html.Node, attr string) bool {
